@@ -1,0 +1,8 @@
+htmlcov/
+.coverage*
+*.ipynb_*
+*.swp
+*.swo
+*.pyc
+__pycache*
+*.egg-info
