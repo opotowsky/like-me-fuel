@@ -4,7 +4,7 @@ import sys
 import csv
 import numpy as np
 import pandas as pd
-from all_jobs import parent_jobs, kid_jobs, train_test_pkls
+from mll_calc.all_jobs import parent_jobs, kid_jobs, train_test_pkls
 
 def format_db(db_path):
     # TODO copied from mll_calc.py to save time
