@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-from mll_calc.mll_calc import unc_calc, format_XY, ratios, format_pred, ll_cdf, get_pred, mll_testset, parse_args
+from mll_calc.mll_pred import unc_calc, format_XY, ratios, format_pred, ll_cdf, get_pred, mll_testset, parse_args
 import pickle
 import pytest
 import numpy as np
