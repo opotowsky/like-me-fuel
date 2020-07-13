@@ -5,7 +5,7 @@ import glob
 import argparse
 import numpy as np
 import pandas as pd
-from htc_files.all_jobs import job_dirs
+from mll_calc.all_jobs import job_dirs
 
 def calc_errors(pred_df, true_lbls):
     """
