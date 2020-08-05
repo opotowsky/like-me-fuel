@@ -23,6 +23,9 @@ def like_calc(y_sim, y_mes, std):
     like: likelihood that the test entry is the simulated entry
 
     """
+    y_sim = y_sim[y_mes>0]
+    std = std[y_mes>0]
+    y_mes = y_mes[y_mes>0]
     like = np.prod(stats.norm.pdf(y_sim, loc=y_mes, scale=std))
     return like
 
@@ -42,6 +45,9 @@ def ll_calc(y_sim, y_mes, std):
     ll: log-likelihood that the test entry is the simulated entry
 
     """
+    y_sim = y_sim[y_mes>0]
+    std = std[y_mes>0]
+    y_mes = y_mes[y_mes>0]
     ll = np.sum(stats.norm.logpdf(y_sim, loc=y_mes, scale=std))
     return ll
 
@@ -62,6 +68,10 @@ def unc_calc(y_sim, y_mes, sim_unc_sq, mes_unc_sq):
     ll_unc: uncertainty of the log-likelihood calculation
 
     """
+    y_sim = y_sim[y_mes>0]
+    sim_unc_sq = sim_unc_sq[y_mes>0]
+    mes_unc_sq = mes_unc_sq[y_mes>0]
+    y_mes = y_mes[y_mes>0]
     unc = ((y_sim - y_mes) / sim_unc_sq)**2 * (sim_unc_sq + mes_unc_sq)
     unc.replace([np.inf, -np.inf], 0, inplace=True)
     unc.fillna(0, inplace=True)
