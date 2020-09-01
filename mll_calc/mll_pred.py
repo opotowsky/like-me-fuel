@@ -369,7 +369,9 @@ def main():
     else: 
         test = XY.iloc[args.db_rows[0]:args.db_rows[1]]
         
-    lbls = ['ReactorType', 'CoolingTime', 'Enrichment', 'Burnup', 'OrigenReactor']
+    lbls = ['ReactorType', 'CoolingTime', 'Enrichment', 'Burnup', 
+            'OrigenReactor', 'ModDensity', 'AvgPowerDensity', 'UiWeight'
+            ]
     # TODO: need some better way to handle varying ratio lists
     tamu_list = ['cs137/cs133', 'cs134/cs137', 'cs135/cs137', 'ba136/ba138', 
                  'sm150/sm149', 'sm152/sm149', 'eu154/eu153', 'pu240/pu239', 
