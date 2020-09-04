@@ -108,7 +108,7 @@ def ratios(XY, ratio_list, labels):
     XY_ratios = XY_ratios[cols]
     return XY_ratios
 
-def format_pred(pred_row, lbls, cdf_cols):
+def format_pred(pred_row, lbls, nonlbls, cdf_cols):
     """
     This separates off the formatting of the pred_ll dataframe from the 
     get_pred function for cleanliness. 
@@ -119,6 +119,7 @@ def format_pred(pred_row, lbls, cdf_cols):
                prediction (i.e., the predicted labels), and all saved log-
                likelihoods
     lbls : list of labels that are predicted
+    nonlbls : list of reactor parameters that aren't being predicted
     cdf_cols : list of new LogLL columns added to prediction for CDF plot
 
     Returns
@@ -130,6 +131,7 @@ def format_pred(pred_row, lbls, cdf_cols):
     """
     pred_lbls = ["pred_" + s for s in lbls] 
     pred_row.rename(columns=dict(zip(lbls, pred_lbls)), inplace=True)
+    pred_lbls.extend(nonlbls)
     pred_lbls.extend(cdf_cols)
     pred_row = pred_row.loc[:, pred_lbls]
 
@@ -179,7 +181,7 @@ def ll_cdf(pred_ll, ll_df):
 
     return pred_ll, cdf_cols
 
-def get_pred(XY, test_sample, unc, lbls):
+def get_pred(XY, test_sample, unc, lbls, nonlbls):
     """
     Given a database of spent fuel entries and a test sample (nuclide
     measurements only), calculates the log-likelihood (and LL-uncertainty) of
@@ -196,6 +198,7 @@ def get_pred(XY, test_sample, unc, lbls):
     unc : float that represents the simulation uncertainty in nuclide 
           measurements
     lbls : list of reactor parameters to be predicted
+    nonlbls : list of reactor parameters that aren't being predicted
 
     Returns
     -------
@@ -206,7 +209,7 @@ def get_pred(XY, test_sample, unc, lbls):
     """
     ll_name = 'MaxLogLL'
     unc_name = 'MaxLLUnc'
-    X = XY.drop(lbls, axis=1).copy()
+    X = XY.drop(lbls+nonlbls, axis=1).copy()
     
     XY[ll_name] = X.apply(lambda row: ll_calc(row, test_sample, unc*row), axis=1)
     XY[unc_name] = X.apply(lambda row: unc_calc(row, test_sample, (unc*row)**2, (unc*test_sample)**2), axis=1)
@@ -214,14 +217,14 @@ def get_pred(XY, test_sample, unc, lbls):
     pred_row = XY.loc[XY.index == XY[ll_name].idxmax()].copy()
     pred_ll, cdf_cols = ll_cdf(pred_row, XY[[ll_name, unc_name]]) 
     cdf_cols = [ll_name, unc_name] + cdf_cols
-    pred_ll = format_pred(pred_ll, lbls, cdf_cols)
+    pred_ll = format_pred(pred_ll, lbls, nonlbls, cdf_cols)
     
     # need to delete calculated columns so next test sample can be calculated
     XY.drop(columns=[ll_name, unc_name], inplace=True)
     
     return pred_ll
 
-def mll_testset(XY, test, ext_test, unc, lbls):
+def mll_testset(XY, test, ext_test, unc, lbls, nonlbls):
     """
     Given a database of spent fuel entries containing a nuclide vector and the
     reactor operation parameters, and an equally formatted database of test
@@ -238,6 +241,7 @@ def mll_testset(XY, test, ext_test, unc, lbls):
     unc : float that represents the simulation uncertainty in nuclide 
           measurements
     lbls : list of reactor parameters to be predicted
+    nonlbls : list of reactor parameters that aren't being predicted
 
     Returns
     -------
@@ -246,12 +250,16 @@ def mll_testset(XY, test, ext_test, unc, lbls):
     """
     pred_df = pd.DataFrame()
     for sim_idx, row in test.iterrows():
-        test_sample = row.drop(lbls)
-        test_answer = row[lbls]
         if ext_test:
-            pred_ll = get_pred(XY, test_sample, unc, lbls)
+            test_sample = row.drop(lbls)
+            test_answer = row[lbls]
+            pred_ll = get_pred(XY, test_sample, unc, lbls, nonlbls)
         else:
-            pred_ll = get_pred(XY.drop(sim_idx), test_sample, unc, lbls)
+            test_sample = row.drop(lbls+nonlbls)
+            test_answer = row[lbls+nonlbls]
+            pred_ll = get_pred(XY.drop(sim_idx), test_sample, unc, lbls, nonlbls)
+            # for concat step
+            lbls = lbls + nonlbls
         if pred_df.empty:
             pred_df = pd.DataFrame(columns = pred_ll.columns.to_list())
         pred_df = pred_df.append(pred_ll)
@@ -268,7 +276,9 @@ def check_traindb_equal(final, db_path, arg_ratios, ratio_list, lbls):
     ----------
     final : training database dataframe at end of script
     db_path : path to pkl file containing training database
-    ratios : Boolean arg indicating whether or not nuclide ratios are being used
+    arg_ratios : Boolean arg indicating whether or not nuclide ratios are being used
+    ratio_list : list of ratios being created
+    lbls : all non-features (prediction labels and non-prediction labels)
     
     """
     initial = format_XY(db_path)
@@ -277,6 +287,27 @@ def check_traindb_equal(final, db_path, arg_ratios, ratio_list, lbls):
     if not initial.equals(final):
         sys.exit('Final training database does not equal initial database')
     return
+
+def convert_g_to_mgUi(XY, Y_list):
+    """
+    Converts nuclides from ORIGEN simulations measured in grams to 
+    concentrations measured in mg / gUi
+
+    Parameters
+    ----------
+    XY : dataframe of origen sims with nuclides measured in grams
+    Y_list : list of columns in DB that are not features (nuclides) 
+
+    Returns
+    -------
+    XY : dataframe of origen sims with nuclides measured in mg / gUi
+    
+    """
+    
+    nucs = XY.columns[~XY.columns.isin(Y_list)].tolist()
+    # [x (g) / 1e6 (gUi)] * [1000 (mg) / 1 (g)] = x / 1000
+    XY[nucs] = XY[nucs].div(1000, axis=0)
+    return XY
 
 def format_XY(db_path):
     """
@@ -314,8 +345,8 @@ def parse_args(args):
     parser = argparse.ArgumentParser(description='Performs maximum likelihood calculations for reactor parameter prediction.')
     
     # local filepaths, FYI:
-    # train_db = '~/sims_n_results/nucmoles_opusupdate_aug2019/not-scaled_15nuc.pkl'
-    # test_db = '~/sfcompo/format_clean/sfcompo_formatted.pkl'
+    # train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_XXnuc.pkl'
+    # test_db = '~/sfcompo/format_clean/sfcompo_nucXX.pkl'
     
     parser.add_argument('outdir', metavar='output-directory',  
                         help='directory in which to organize output csv')
@@ -356,22 +387,25 @@ def main():
     # training set
     XY = format_XY(args.train_db)
     
+    lbls = ['ReactorType', 'CoolingTime', 'Enrichment', 'Burnup', 
+            'OrigenReactor', 'ModDensity', 'AvgPowerDensity', 'UiWeight'
+            ]
+    nonlbls = ['AvgPowerDensity', 'ModDensity', 'UiWeight']
+    
     # testing set
     if args.ext_test == True:
         test = pd.read_pickle(args.test_db)
         # In-script test: order of columns must match:
-        if XY.columns.tolist() != test.columns.tolist():
-            if sorted(XY.columns.tolist()) == sorted(test.columns.tolist()):
-                test = test[XY.columns]
-            else:
-                sys.exit('Feature sets are different')
+        xy_cols = XY.columns.tolist()
+        for col in nonlbs: xy_cols.remove(col)
+        if xy_cols != test.columns.tolist(): sys.exit('Feature sets are different')
+        # slice test set
         test = test.iloc[args.db_rows[0]:args.db_rows[1]]
+        # converting train DB to match units in sfcompo DB
+        XY = convert_g_to_mgUi(XY, lbls+nonlbls)
     else: 
         test = XY.iloc[args.db_rows[0]:args.db_rows[1]]
         
-    lbls = ['ReactorType', 'CoolingTime', 'Enrichment', 'Burnup', 
-            'OrigenReactor', 'ModDensity', 'AvgPowerDensity', 'UiWeight'
-            ]
     # TODO: need some better way to handle varying ratio lists
     tamu_list = ['cs137/cs133', 'cs134/cs137', 'cs135/cs137', 'ba136/ba138', 
                  'sm150/sm149', 'sm152/sm149', 'eu154/eu153', 'pu240/pu239', 
@@ -379,15 +413,15 @@ def main():
                  ]
     ratio_list = tamu_list
     if args.ratios == True:
-        XY = ratios(XY, ratio_list, lbls)
+        XY = ratios(XY, ratio_list, lbls+nonlbls)
         test = ratios(test, ratio_list, lbls)
     
     unc = float(args.sim_unc)
-    pred_df = mll_testset(XY, test, args.ext_test, unc, lbls)
+    pred_df = mll_testset(XY, test, args.ext_test, unc, lbls, nonlbls)
     
     # In-script test: final training db should equal intro training db:
     if args.ext_test == False:
-        check_traindb_equal(XY, args.train_db, args.ratios, ratio_list, lbls)
+        check_traindb_equal(XY, args.train_db, args.ratios, ratio_list, lbls+nonlbls)
 
     fname = args.outfile + '.csv'
     pred_df.to_csv(fname)
