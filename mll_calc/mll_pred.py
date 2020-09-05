@@ -388,8 +388,7 @@ def main():
     XY = format_XY(args.train_db)
     
     lbls = ['ReactorType', 'CoolingTime', 'Enrichment', 'Burnup', 
-            'OrigenReactor', 'ModDensity', 'AvgPowerDensity', 'UiWeight'
-            ]
+            'OrigenReactor']
     nonlbls = ['AvgPowerDensity', 'ModDensity', 'UiWeight']
     
     # testing set
@@ -397,8 +396,12 @@ def main():
         test = pd.read_pickle(args.test_db)
         # In-script test: order of columns must match:
         xy_cols = XY.columns.tolist()
-        for col in nonlbs: xy_cols.remove(col)
-        if xy_cols != test.columns.tolist(): sys.exit('Feature sets are different')
+        for col in nonlbls: xy_cols.remove(col)
+        if xy_cols != test.columns.tolist():
+            if sorted(xy_cols) == sorted(test.columns.tolist()):
+                test = test[xy_cols]
+            else:
+                sys.exit('Feature sets are different')
         # slice test set
         test = test.iloc[args.db_rows[0]:args.db_rows[1]]
         # converting train DB to match units in sfcompo DB
