@@ -413,8 +413,6 @@ def main():
         # (2.5% of db is tested)
         test = test.sample(4)
         
-    XY = XY.iloc[50:250]
-        
     # TODO: need some better way to handle varying ratio lists
     tamu_list = ['cs137/cs133', 'cs134/cs137', 'cs135/cs137', 'ba136/ba138', 
                  'sm150/sm149', 'sm152/sm149', 'eu154/eu153', 'pu240/pu239', 
