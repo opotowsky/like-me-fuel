@@ -259,11 +259,11 @@ def mll_testset(XY, test, ext_test, unc, lbls, nonlbls):
             test_answer = row[lbls+nonlbls]
             pred_ll = get_pred(XY.drop(sim_idx), test_sample, unc, lbls, nonlbls)
             # for concat step
-            lbls = lbls + nonlbls
+            all_lbls = lbls + nonlbls
         if pred_df.empty:
             pred_df = pd.DataFrame(columns = pred_ll.columns.to_list())
         pred_df = pred_df.append(pred_ll)
-    pred_df = pd.concat([test.loc[:, lbls].rename_axis('sim_idx').reset_index(), 
+    pred_df = pd.concat([test.loc[:, all_lbls].rename_axis('sim_idx').reset_index(),
                          pred_df.rename_axis('pred_idx').reset_index()
                          ], axis=1)
     return pred_df
@@ -345,7 +345,7 @@ def parse_args(args):
     parser = argparse.ArgumentParser(description='Performs maximum likelihood calculations for reactor parameter prediction.')
     
     # local filepaths, FYI:
-    # train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_XXnuc.pkl'
+    # train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_nucXX.pkl'
     # test_db = '~/sfcompo/format_clean/sfcompo_nucXX.pkl'
     
     parser.add_argument('outdir', metavar='output-directory',  
@@ -408,6 +408,12 @@ def main():
         XY = convert_g_to_mgUi(XY, lbls+nonlbls)
     else: 
         test = XY.iloc[args.db_rows[0]:args.db_rows[1]]
+        # this is a fix for the now too-large db to test every entry
+        # 4 lines per job, with max_jobs currently set to 2400 
+        # (2.5% of db is tested)
+        test = test.sample(4)
+        
+    XY = XY.iloc[50:250]
         
     # TODO: need some better way to handle varying ratio lists
     tamu_list = ['cs137/cs133', 'cs134/cs137', 'cs135/cs137', 'ba136/ba138', 

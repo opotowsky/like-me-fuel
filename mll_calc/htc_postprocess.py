@@ -46,7 +46,7 @@ def main():
     args = parser.parse_args(sys.argv[1:])
     
     for unc_dir in job_dirs:
-        results_path = '/home/opotowsky/sims_n_results/nucmoles_opusupdate_aug2019/' \
+        results_path = '/home/opotowsky/sims_n_results/simupdates_aug2020/' \
                        + args.results_dir + '/' + unc_dir + '/'
         csvs = sorted(glob.glob(results_path + '*.csv'))
         pred_df = pd.concat((pd.read_csv(csv, header = 0) for csv in csvs))

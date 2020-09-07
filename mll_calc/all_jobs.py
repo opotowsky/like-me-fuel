@@ -5,7 +5,7 @@ job_dirs = ['Job' + str(i) + '_unc' + str(unc) for i, unc in enumerate(uncs)]
 
 kid_jobs = {'job_dirs' : job_dirs,
             'uncs' : uncs,
-            'rows_per_job' : 3
+            'rows_per_job' : 1
             }
 
 train_15 = {'parent_dir' : 'train15',
@@ -41,4 +41,5 @@ sfco_29 = {'parent_dir' : 'sfco29',
            'test_pkl' : 'sfcompo_nuc29.pkl'
            }
 
-parent_jobs = [train_15, train_29, sfco_15, sfco_29]
+#parent_jobs = [train_15, train_29, sfco_15, sfco_29]
+parent_jobs = [train_15, train_29]

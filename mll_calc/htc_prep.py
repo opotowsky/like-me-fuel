@@ -19,16 +19,19 @@ def row_calcs(ext_test, n_rows, nuc_num):
     else:
         sys.exit('nuc_num is neither 15 nor 29')
     ################################################
-    
     if 'no' in ext_test:
         test_set = format_XY(train_db)
+        # change breakup of steps from n_rows to the num of max jobs
+        # the mll_pred script will sort from there
+        max_jobs = 2400
+        db_rows = len(test_set.index)
+        n_rows = db_rows // max_jobs
     else:
         test_set = format_XY(sfco_db)
-    db_rows = len(test_set.index)
+        db_rows = len(test_set.index)
     init_rows = np.arange(0, db_rows, n_rows).tolist()
     end_rows = init_rows[1:]
     end_rows.append(db_rows+1)
-    
     ################################################
     ################ In-script test ################
     ################################################
@@ -40,7 +43,6 @@ def row_calcs(ext_test, n_rows, nuc_num):
         print(total_jobs, len(init_rows), len(end_rows))
         sys.exit('total expected jobs does not equal one of db_row lists')
     ################################################
-
     return init_rows, end_rows
 
 def make_paramstxt(parent_job, kid_jobs):
@@ -55,7 +57,7 @@ def make_paramstxt(parent_job, kid_jobs):
             for i in range(0, len(init_rows)):
                 job = [job_dir, unc, 
                        parent_job['train_pkl'], parent_job['test_pkl'],
-                       str(i).zfill(3), init_rows[i], end_rows[i],
+                       str(i).zfill(4), init_rows[i], end_rows[i],
                        parent_job['ext_test'], parent_job['ratios']
                        ]
                 w.writerow(job)    
