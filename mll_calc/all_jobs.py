@@ -22,10 +22,12 @@ train_29 = {'parent_dir' : 'train29',
             'test_pkl' : 'sfcompo_nuc29.pkl'
             }
 
-#tamu_ratio = {'parent_dir' : 'tamuRatio',
-#              'ext_test' : '--no-ext-test',
-#              'ratios' : '--ratios'
-#              }
+sfco_10ratio = {'parent_dir' : 'sfco10ratio',
+                'ext_test' : '--ext-test',
+                'ratios' : '--ratios',
+                'train_pkl' : 'sim_grams_nuc15.pkl',
+                'test_pkl' : 'sfcompo_nuc15.pkl'
+                }
 
 sfco_15 = {'parent_dir' : 'sfco15',
            'ext_test' : '--ext-test',
@@ -41,5 +43,5 @@ sfco_29 = {'parent_dir' : 'sfco29',
            'test_pkl' : 'sfcompo_nuc29.pkl'
            }
 
-#parent_jobs = [train_15, train_29, sfco_15, sfco_29]
-parent_jobs = [train_15, train_29]
+#parent_jobs = [train_15, train_29, sfco_15, sfco_29, sfco_10ratio]
+parent_jobs = [sfco_10ratio,]
