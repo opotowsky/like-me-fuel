@@ -18,7 +18,7 @@ train_15 = {'parent_dir' : 'train15',
 train_29 = {'parent_dir' : 'train29',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'sim_grams_nuc29',
+            'train_pkl' : 'sim_grams_nuc29.pkl',
             'test_pkl' : 'sfcompo_nuc29.pkl'
             }
 
@@ -44,4 +44,4 @@ sfco_29 = {'parent_dir' : 'sfco29',
            }
 
 #parent_jobs = [train_15, train_29, sfco_15, sfco_29, sfco_10ratio]
-parent_jobs = [sfco_10ratio,]
+parent_jobs = [train_29,]
