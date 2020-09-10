@@ -254,11 +254,11 @@ def mll_testset(XY, test, ext_test, unc, lbls, nonlbls):
             test_sample = row.drop(lbls)
             test_answer = row[lbls]
             pred_ll = get_pred(XY, test_sample, unc, lbls, nonlbls)
+            all_lbls = lbls
         else:
             test_sample = row.drop(lbls+nonlbls)
             test_answer = row[lbls+nonlbls]
             pred_ll = get_pred(XY.drop(sim_idx), test_sample, unc, lbls, nonlbls)
-            # for concat step
             all_lbls = lbls + nonlbls
         if pred_df.empty:
             pred_df = pd.DataFrame(columns = pred_ll.columns.to_list())
