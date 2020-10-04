@@ -52,8 +52,8 @@ def main():
         pred_df = pd.concat((pd.read_csv(csv, header = 0) for csv in csvs))
         
         # copied lbls from mll_calc.py for now
-        lbls = ['ReactorType', 'CoolingTime', 'Enrichment', 'Burnup', 'OrigenReactor']
-        pred_df = calc_errors(pred_df, lbls)
+        #lbls = ['ReactorType', 'CoolingTime', 'Enrichment', 'Burnup', 'OrigenReactor']
+        #pred_df = calc_errors(pred_df, lbls)
         
         pred_df.to_csv(results_path + unc_dir + '.csv')
 

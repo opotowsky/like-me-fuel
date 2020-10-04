@@ -182,14 +182,14 @@ def main():
     test = pd.read_pickle(args.test_db)
     # In-script test: order of columns must match:
     xy_cols = XY.columns.tolist()
-    for col in nonlbls: xy_cols.remove(col)
-    if xy_cols != test.columns.tolist():
-        if sorted(xy_cols) == sorted(test.columns.tolist()):
-            test = test[xy_cols]
-        else:
-            sys.exit('Feature sets are different')
+    #for col in nonlbls: xy_cols.remove(col)
+    #if xy_cols != test.columns.tolist():
+    #    if sorted(xy_cols) == sorted(test.columns.tolist()):
+    #        test = test[xy_cols]
+    #    else:
+    #        sys.exit('Feature sets are different')
     # converting train DB to match units in sfcompo DB
-    XY = convert_g_to_mgUi(XY, lbls+nonlbls)
+    #XY = convert_g_to_mgUi(XY, lbls+nonlbls)
         
     unc = float(args.sim_unc)
     ll_df = ll_testset(XY, test, unc, lbls, nonlbls)

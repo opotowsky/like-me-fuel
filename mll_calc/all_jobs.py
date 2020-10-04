@@ -59,12 +59,12 @@ sfco_pca29 = {'parent_dir' : 'pca_sfco29',
 
 good_ll = {'parent_dir' : 'good_full_ll',
            'train_pkl' : 'sim_grams_nuc29.pkl',
-           'test_pkl' : 'good.pkl'
+           'test_pkl' : 'train_good.pkl'
            }
 
 bad_ll = {'parent_dir' : 'bad_full_ll',
           'train_pkl' : 'sim_grams_nuc29.pkl',
-          'test_pkl' : 'bad.pkl'
+          'test_pkl' : 'train_bad.pkl'
           }
 
 #parent_jobs = [train_15, train_29, sfco_15, sfco_29, sfco_10ratio]
