@@ -129,9 +129,9 @@ def format_pred(pred_row, lbls, nonlbls, cdf_cols):
                populate a CDF
     
     """
+    lbls = lbls + nonlbls
     pred_lbls = ["pred_" + s for s in lbls] 
     pred_row.rename(columns=dict(zip(lbls, pred_lbls)), inplace=True)
-    pred_lbls.extend(nonlbls)
     pred_lbls.extend(cdf_cols)
     pred_row = pred_row.loc[:, pred_lbls]
 
@@ -409,9 +409,9 @@ def main():
     else: 
         test = XY.iloc[args.db_rows[0]:args.db_rows[1]]
         # this is a fix for the now too-large db to test every entry
-        # 4 lines per job, with max_jobs currently set to 2400 
-        # (2.5% of db is tested)
-        test = test.sample(4)
+        # 5 lines per job, with max_jobs currently set to 2400 
+        # (~3% of db is tested)
+        test = test.sample(5)
         
     # TODO: need some better way to handle varying ratio lists
     tamu_list = ['cs137/cs133', 'cs134/cs137', 'cs135/cs137', 'ba136/ba138', 
