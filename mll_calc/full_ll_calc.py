@@ -78,8 +78,7 @@ def ll_testset(XY, test, unc, lbls, nonlbls):
     
     """
     for sim_idx, row in test.iterrows():
-        test_sample = row.drop(lbls)
-        test_answer = row[lbls]
+        test_sample = row.drop(lbls+nonlbls)
         ll_df = get_ll(XY, test_sample, unc, lbls, nonlbls)
     return ll_df
 
@@ -181,7 +180,7 @@ def main():
     
     test = pd.read_pickle(args.test_db)
     # In-script test: order of columns must match:
-    xy_cols = XY.columns.tolist()
+    #xy_cols = XY.columns.tolist()
     #for col in nonlbls: xy_cols.remove(col)
     #if xy_cols != test.columns.tolist():
     #    if sorted(xy_cols) == sorted(test.columns.tolist()):
