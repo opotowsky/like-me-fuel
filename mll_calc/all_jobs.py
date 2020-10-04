@@ -57,12 +57,12 @@ sfco_pca29 = {'parent_dir' : 'pca_sfco29',
               'test_pkl' : 'sfcompo_nuc29.pkl'
               }
 
-good_ll = {'parent_dir' : 'good_full_ll',
+good_ll = {'parent_dir' : 'good_full_ll_train',
            'train_pkl' : 'sim_grams_nuc29.pkl',
            'test_pkl' : 'train_good.pkl'
            }
 
-bad_ll = {'parent_dir' : 'bad_full_ll',
+bad_ll = {'parent_dir' : 'bad_full_ll_train',
           'train_pkl' : 'sim_grams_nuc29.pkl',
           'test_pkl' : 'train_bad.pkl'
           }
