@@ -178,7 +178,7 @@ def main():
             'OrigenReactor']
     nonlbls = ['AvgPowerDensity', 'ModDensity', 'UiWeight']
     
-    test = pd.read_pickle(args.test_db)
+    test = format_XY(args.test_db)
     # In-script test: order of columns must match:
     #xy_cols = XY.columns.tolist()
     #for col in nonlbls: xy_cols.remove(col)
