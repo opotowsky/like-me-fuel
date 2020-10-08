@@ -1,3 +1,3 @@
-,sim_idx,pred_idx,MaxLogLL,ReactorType,pred_ReactorType,ReactorType_Score,Enrichment,pred_Enrichment,Burnup,pred_Burnup,pred_CoolingTime,AvgPowerDensity,ModDensity
-7,CCL-1|D047|MKP109|LL,344552,15.400515584443545,pwr,pwr,True,3.0380000000000003,3.04,27350.0,27280.53,3031.473636,25.0,0.71
-63,GAR-1|A-106|E5|1,309124,-516.1029482205803,bwr,pwr,False,2.1,5.48,8930.0,21793.78,29.215503,41.0,0.71
+,sim_idx,pred_idx,MaxLogLL,ReactorType,pred_ReactorType,ReactorType_Score,OrigenReactor,pred_OrigenReactor,Enrichment,pred_Enrichment,Burnup,pred_Burnup,pred_CoolingTime,AvgPowerDensity,ModDensity
+7,CCL-1|D047|MKP109|LL,344552,15.400515584443545,pwr,pwr,True,Calvert Cliffs-1_PWR,vver1000,3.0380000000000003,3.04,27350.0,27280.53,3031.473636,25.0,0.71
+63,GAR-1|A-106|E5|1,309124,-516.1029482205803,bwr,pwr,False,Garigliano-1_BWR,s18x18,2.1,5.48,8930.0,21793.78,29.215503,41.0,0.71
