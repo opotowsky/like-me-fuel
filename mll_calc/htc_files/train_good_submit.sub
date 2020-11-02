@@ -16,4 +16,4 @@ request_cpus = 1
 request_memory = 1GB
 request_disk = 1GB
 
-queue Jobdir, unc, train, test, outcsv, row0, row1 from good_full_ll_train_params.txt
+queue Jobdir, unc, train, test, outcsv, row0, row1 from train_good_full_ll_params.txt
