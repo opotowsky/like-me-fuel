@@ -14,7 +14,7 @@ def row_calcs(ext_test, n_rows, nuc_num):
         train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_nuc15.pkl'
         sfco_db = '~/sfcompo/format_clean/sfcompo_nuc15.pkl'
     elif nuc_num == '29':
-        train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_nuc29.pkl'
+        train_db = '~/sims_n_results/final_sims_nov2020/not-scaled_nuc29.pkl'
         sfco_db = '~/sfcompo/format_clean/sfcompo_nuc29.pkl'
     else:
         sys.exit('nuc_num is neither 15 nor 29')
