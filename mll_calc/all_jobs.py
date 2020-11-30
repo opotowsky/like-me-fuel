@@ -57,26 +57,26 @@ sfco_pca29 = {'parent_dir' : 'pca_sfco29',
               'test_pkl' : 'sfcompo_nuc29.pkl'
               }
 
-good_train = {'parent_dir' : 'train_good_full_ll',
+good_train = {'parent_dir' : 'train_good',
               'train_pkl' : 'sim_grams_nuc29.pkl',
               'test_pkl' : 'train_good.pkl'
               }
 
-bad_train = {'parent_dir' : 'train_bad_full_ll',
+bad_train = {'parent_dir' : 'train_bad',
              'train_pkl' : 'sim_grams_nuc29.pkl',
              'test_pkl' : 'train_bad.pkl'
              }
 
-good_sfco = {'parent_dir' : 'sfco_good_full_ll',
+good_sfco = {'parent_dir' : 'sfco_good',
              'train_pkl' : 'sim_grams_nuc29.pkl',
              'test_pkl' : 'sfco_good.pkl'
              }
 
-bad_sfco = {'parent_dir' : 'sfco_bad_full_ll',
+bad_sfco = {'parent_dir' : 'sfco_bad',
             'train_pkl' : 'sim_grams_nuc29.pkl',
             'test_pkl' : 'sfco_bad.pkl'
             }
 
 #parent_jobs = [train_15, train_29, sfco_15, sfco_29, sfco_10ratio]
-parent_jobs = [train_29, sfco_29]
-#parent_jobs = [good_train, bad_train, good_sfco, bad_sfco]
+#parent_jobs = [train_29, sfco_29]
+parent_jobs = [good_train, bad_train, good_sfco, bad_sfco]

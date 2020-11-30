@@ -8,7 +8,7 @@ from mll_calc.all_jobs import parent_jobs, kid_jobs
 from mll_calc.mll_pred import format_XY
 
 def row_calcs():
-    train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_nuc29.pkl'
+    train_db = '~/sims_n_results/final_sims_nov2020/not-scaled_nuc29.pkl'
     train_set = format_XY(train_db)
     db_rows = len(train_set.index)
     max_jobs = 2400
@@ -31,7 +31,7 @@ def row_calcs():
 
 def make_paramstxt(parent_job, kid_jobs):
     parent_dir = parent_job['parent_dir']
-    fname = parent_dir + '_params.txt'
+    fname = parent_dir + '_full_ll_params.txt'
     with open(fname, 'w') as f:
         w = csv.writer(f) 
         for kid_dir, unc in zip(kid_jobs['job_dirs'], kid_jobs['uncs']):
