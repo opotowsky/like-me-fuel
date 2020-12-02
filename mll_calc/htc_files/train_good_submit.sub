@@ -5,7 +5,7 @@ output = job$(outcsv).out
 
 requirements = (OpSysMajorVer == 7)
 executable = ll_run_python.sh
-arguments = $(Jobdir) $(unc) $(train) $(test) $(outcsv) $(row0) $(row1)
+arguments = $(Jobdir) $(unc) $(train) $(test) $(outcsv) $(row0) $(row1) $(ext_test)
 
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
@@ -16,4 +16,4 @@ request_cpus = 1
 request_memory = 1GB
 request_disk = 1GB
 
-queue Jobdir, unc, train, test, outcsv, row0, row1 from train_good_full_ll_params.txt
+queue Jobdir, unc, train, test, outcsv, row0, row1, ext_test from train_good_full_ll_params.txt

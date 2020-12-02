@@ -5,15 +5,15 @@ output = job$(outcsv).out
 
 requirements = (OpSysMajorVer == 7)
 executable = ll_run_python.sh
-arguments = $(Jobdir) $(unc) $(train) $(test) $(outcsv) $(row0) $(row1)
+arguments = $(Jobdir) $(unc) $(train) $(test) $(outcsv) $(row0) $(row1) $(ext_test)
 
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
 initialdir = $(Jobdir)
-transfer_input_files = http://proxy.chtc.wisc.edu/SQUID/chtc/python36.tar.gz, ../../shared/packages.tar.gz, ../../shared/full_ll_calc.py, http://proxy.chtc.wisc.edu/SQUID/opotowsky/sim_grams_nuc29.pkl, ../../shared/good.pkl
+transfer_input_files = http://proxy.chtc.wisc.edu/SQUID/chtc/python36.tar.gz, ../../shared/packages.tar.gz, ../../shared/full_ll_calc.py, http://proxy.chtc.wisc.edu/SQUID/opotowsky/sim_grams_nuc29.pkl, ../../shared/sfco_good.pkl
 
 request_cpus = 1
 request_memory = 1GB
 request_disk = 1GB
 
-queue Jobdir, unc, train, test, outcsv, row0, row1 from sfco_good_full_ll_params.txt
+queue Jobdir, unc, train, test, outcsv, row0, row1, ext_test from sfco_good_full_ll_params.txt
