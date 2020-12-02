@@ -55,7 +55,7 @@ def get_ll(XY, test_sample, unc, lbls, nonlbls):
     XY[ll_name] = X.apply(lambda row: like_calc(row, test_sample, unc*row), axis=1)
     return XY
 
-def ll_testset(XY, test, unc, lbls, nonlbls):
+def ll_testset(XY, test, unc, lbls, nonlbls, ext_test):
     """
     Given a database of spent fuel entries containing a nuclide vector and the
     reactor operation parameters, and an equally formatted database of test
@@ -70,6 +70,7 @@ def ll_testset(XY, test, unc, lbls, nonlbls):
           measurements
     lbls : list of reactor parameters to be predicted
     nonlbls : list of reactor parameters that aren't being predicted
+    ext_test : boolean indicating if test sample is from external test set
 
     Returns
     -------
@@ -78,7 +79,10 @@ def ll_testset(XY, test, unc, lbls, nonlbls):
     
     """
     for sim_idx, row in test.iterrows():
-        test_sample = row.drop(lbls+nonlbls)
+        if ext_test:
+            test_sample = row.drop(lbls)
+        else:
+            test_sample = row.drop(lbls+nonlbls)
         ll_df = get_ll(XY, test_sample, unc, lbls, nonlbls)
     return ll_df
 
@@ -139,7 +143,7 @@ def parse_args(args):
     parser = argparse.ArgumentParser(description='Performs maximum likelihood calculations for reactor parameter prediction.')
     
     # local filepaths, FYI:
-    # train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_nucXX.pkl'
+    # train_db = '~/sims_n_results/final_sims_nov2020/not-scaled_nucXX.pkl'
     # test_db = '~/sfcompo/format_clean/sfcompo_nucXX.pkl'
     
     parser.add_argument('outdir', metavar='output-directory',  
@@ -154,6 +158,10 @@ def parse_args(args):
                         help='name for csv output file')
     parser.add_argument('db_rows', metavar='db-interval', nargs=2, type=int, 
                         help='indices of the database interval for the job')
+    parser.add_argument('--ext-test', dest='ext_test', action='store_true',
+                        help='calculations use external testing set (sfcompo)')
+    parser.add_argument('--no-ext-test', dest='ext_test', action='store_false',
+                        help='calculations use test sample from training db')
     
     return parser.parse_args(args)
 
@@ -178,20 +186,16 @@ def main():
             'OrigenReactor']
     nonlbls = ['AvgPowerDensity', 'ModDensity', 'UiWeight']
     
-    test = format_XY(args.test_db)
-    # In-script test: order of columns must match:
-    #xy_cols = XY.columns.tolist()
-    #for col in nonlbls: xy_cols.remove(col)
-    #if xy_cols != test.columns.tolist():
-    #    if sorted(xy_cols) == sorted(test.columns.tolist()):
-    #        test = test[xy_cols]
-    #    else:
-    #        sys.exit('Feature sets are different')
-    # converting train DB to match units in sfcompo DB
-    #XY = convert_g_to_mgUi(XY, lbls+nonlbls)
+    if args.ext_test == True:
+        test = pd.read_pickle(args.test_db)
+        # converting train DB to match units in sfcompo DB
+        XY = convert_g_to_mgUi(XY, lbls+nonlbls)
+    else:
+        test = format_XY(args.test_db)
+        
         
     unc = float(args.sim_unc)
-    ll_df = ll_testset(XY, test, unc, lbls, nonlbls)
+    ll_df = ll_testset(XY, test, unc, lbls, nonlbls, args.ext_test)
 
     fname = args.outfile + '.csv'
     ll_df.to_csv(fname)

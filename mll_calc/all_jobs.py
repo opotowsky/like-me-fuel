@@ -58,21 +58,25 @@ sfco_pca29 = {'parent_dir' : 'pca_sfco29',
               }
 
 good_train = {'parent_dir' : 'train_good',
+              'ext_test' : '--no-ext-test',
               'train_pkl' : 'sim_grams_nuc29.pkl',
               'test_pkl' : 'train_good.pkl'
               }
 
 bad_train = {'parent_dir' : 'train_bad',
+             'ext_test' : '--no-ext-test',
              'train_pkl' : 'sim_grams_nuc29.pkl',
              'test_pkl' : 'train_bad.pkl'
              }
 
 good_sfco = {'parent_dir' : 'sfco_good',
+             'ext_test' : '--ext-test',
              'train_pkl' : 'sim_grams_nuc29.pkl',
              'test_pkl' : 'sfco_good.pkl'
              }
 
 bad_sfco = {'parent_dir' : 'sfco_bad',
+            'ext_test' : '--ext-test',
             'train_pkl' : 'sim_grams_nuc29.pkl',
             'test_pkl' : 'sfco_bad.pkl'
             }
