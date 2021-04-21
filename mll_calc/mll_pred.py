@@ -345,7 +345,8 @@ def parse_args(args):
     parser = argparse.ArgumentParser(description='Performs maximum likelihood calculations for reactor parameter prediction.')
     
     # local filepaths, FYI:
-    # train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_nucXX.pkl'
+    # train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_nucXX.pkl' # nuclide concentrations
+    # train_db = '~/sims_n_results/final_sims_nov2020/not-scaled_nucXX.pkl' # processed spectra
     # test_db = '~/sfcompo/format_clean/sfcompo_nucXX.pkl'
     
     parser.add_argument('outdir', metavar='output-directory',  
@@ -411,7 +412,7 @@ def main():
         # this is a fix for the now too-large db to test every entry
         # 5 lines per job, with max_jobs currently set to 2400 
         # (~3% of db is tested)
-        test = test.sample(5)
+        test = test.sample(10)
         
     # TODO: need some better way to handle varying ratio lists
     tamu_list = ['cs137/cs133', 'cs134/cs137', 'cs135/cs137', 'ba136/ba138', 

@@ -5,7 +5,20 @@ job_dirs = ['Job' + str(i) + '_unc' + str(unc) for i, unc in enumerate(uncs)]
 
 kid_jobs = {'job_dirs' : job_dirs,
             'uncs' : uncs,
-            'rows_per_job' : 1
+            }
+
+test_acts = {'parent_dir' : 'test_acts',
+             'ext_test' : '--no-ext-test',
+             'ratios' : '--no-ratios',
+             'train_pkl' : 'test.pkl',
+             'test_pkl' : 'null'
+             }
+
+train_d1 = {'parent_dir' : 'train_d1_hpge',
+            'ext_test' : '--no-ext-test',
+            'ratios' : '--no-ratios',
+            'train_pkl' : 'd1_hpge_spectra_peaks_trainset.pkl',
+            'test_pkl' : 'null'
             }
 
 train_15 = {'parent_dir' : 'train15',
@@ -83,4 +96,5 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
 
 #parent_jobs = [train_15, train_29, sfco_15, sfco_29, sfco_10ratio]
 #parent_jobs = [train_29, sfco_29]
-parent_jobs = [good_train, bad_train, good_sfco, bad_sfco]
+#parent_jobs = [good_train, bad_train, good_sfco, bad_sfco]
+parent_jobs = [test_acts,]

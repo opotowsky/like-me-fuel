@@ -2,36 +2,26 @@
 
 import sys
 import csv
+import argparse
 import numpy as np
 import pandas as pd
 from mll_calc.all_jobs import parent_jobs, kid_jobs
 from mll_calc.mll_pred import format_XY
 
-def row_calcs(ext_test, n_rows, nuc_num):
-    ################################################
-    # local filepaths corresponding to DBs in HTC: #
-    if nuc_num == '15':
-        train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_nuc15.pkl'
-        sfco_db = '~/sfcompo/format_clean/sfcompo_nuc15.pkl'
-    elif nuc_num == '29':
-        train_db = '~/sims_n_results/final_sims_nov2020/not-scaled_nuc29.pkl'
-        sfco_db = '~/sfcompo/format_clean/sfcompo_nuc29.pkl'
-    else:
-        sys.exit('nuc_num is neither 15 nor 29')
-    ################################################
+def row_calcs(ext_test, test_db):
+    test_set = format_XY(test_db)
+    db_rows = len(test_set.index)
     if 'no' in ext_test:
-        test_set = format_XY(train_db)
-        # change breakup of steps from n_rows to the num of max jobs
-        # the mll_pred script will sort from there
-        max_jobs = 2400
-        db_rows = len(test_set.index)
-        n_rows = db_rows // max_jobs
+        #max_jobs = 2400
+        max_jobs = 40
     else:
-        test_set = format_XY(sfco_db)
-        db_rows = len(test_set.index)
+        # because sfco has 505 entries
+        max_jobs = 1
+    n_rows = db_rows // max_jobs
     init_rows = np.arange(0, db_rows, n_rows).tolist()
     end_rows = init_rows[1:]
-    end_rows.append(db_rows+1)
+    # TODO took out +1 below because had index 1 too high last time
+    end_rows.append(db_rows)
     ################################################
     ################ In-script test ################
     ################################################
@@ -45,11 +35,10 @@ def row_calcs(ext_test, n_rows, nuc_num):
     ################################################
     return init_rows, end_rows
 
-def make_paramstxt(parent_job, kid_jobs):
+def make_paramstxt(parent_job, kid_jobs, test_db):
     parent_dir = parent_job['parent_dir']
     fname = parent_dir + '_params.txt'
-    nuc_num = parent_dir[-2:len(parent_dir)+1]
-    init_rows, end_rows = row_calcs(parent_job['ext_test'], kid_jobs['rows_per_job'], nuc_num)
+    init_rows, end_rows = row_calcs(parent_job['ext_test'], test_db)
     with open(fname, 'w') as f:
         w = csv.writer(f) 
         for kid_dir, unc in zip(kid_jobs['job_dirs'], kid_jobs['uncs']):
@@ -69,8 +58,18 @@ def main():
     params_mll_calc.txt files
     
     """
+    parser = argparse.ArgumentParser(description='Performs maximum likelihood calculations for reactor parameter prediction.')
+    
+    # possible filepaths, FYI:
+    # '~/sims_n_results/simupdates_aug2020/not-scaled_nucXX.pkl'
+    # '~/sims_n_results/final_sims_nov2020/not-scaled_nucXX.pkl'
+    # '~/sfcompo/format_clean/sfcompo_nucXX.pkl'    
+    parser.add_argument('testdb', metavar='test-database',  
+                        help='full filepath to testing database (sfco or trainset)')
+    args = parser.parse_args(sys.argv[1:])
+    
     for parent_job in parent_jobs:
-        make_paramstxt(parent_job, kid_jobs)
+        make_paramstxt(parent_job, kid_jobs, args.testdb)
     return
     
 if __name__ == "__main__":
