@@ -12,8 +12,8 @@ def row_calcs(ext_test, test_db):
     test_set = format_XY(test_db)
     db_rows = len(test_set.index)
     if 'no' in ext_test:
-        #max_jobs = 2400
-        max_jobs = 40
+        max_jobs = 2400
+        #max_jobs = 40
     else:
         # because sfco has 505 entries
         max_jobs = 1
@@ -61,6 +61,7 @@ def main():
     parser = argparse.ArgumentParser(description='Performs maximum likelihood calculations for reactor parameter prediction.')
     
     # possible filepaths, FYI:
+    # /mnt/researchdrive/BOX_INTERNAL/opotowsky/some/folder/*.pkl
     # '~/sims_n_results/simupdates_aug2020/not-scaled_nucXX.pkl'
     # '~/sims_n_results/final_sims_nov2020/not-scaled_nucXX.pkl'
     # '~/sfcompo/format_clean/sfcompo_nucXX.pkl'    

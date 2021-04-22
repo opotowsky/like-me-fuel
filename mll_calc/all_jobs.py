@@ -97,4 +97,4 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
 #parent_jobs = [train_15, train_29, sfco_15, sfco_29, sfco_10ratio]
 #parent_jobs = [train_29, sfco_29]
 #parent_jobs = [good_train, bad_train, good_sfco, bad_sfco]
-parent_jobs = [test_acts,]
+parent_jobs = [train_d1,]
