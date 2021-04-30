@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-uncs = [0.05, 0.1, 0.15, 0.2]
+uncs = [0.05,]# 0.1, 0.15, 0.2]
 job_dirs = ['Job' + str(i) + '_unc' + str(unc) for i, unc in enumerate(uncs)]
 
 kid_jobs = {'job_dirs' : job_dirs,
@@ -28,13 +28,6 @@ train_d2 = {'parent_dir' : 'train_d2_hpge',
             'test_pkl' : 'null'
             }
 
-train_d3 = {'parent_dir' : 'train_d3_czt',
-            'ext_test' : '--no-ext-test',
-            'ratios' : '--no-ratios',
-            'train_pkl' : 'd3_czt_spectra_31peaks_trainset.pkl',
-            'test_pkl' : 'null'
-            }
-
 train_d4 = {'parent_dir' : 'train_d4_nai',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
@@ -53,6 +46,27 @@ train_d6 = {'parent_dir' : 'train_d6_sri2',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
             'train_pkl' : 'd6_sri2_spectra_peaks_trainset.pkl',
+            'test_pkl' : 'null'
+            }
+
+d1_n31 = {'parent_dir' : 'train_d1_hpge_n31',
+          'ext_test' : '--no-ext-test',
+          'ratios' : '--no-ratios',
+          'train_pkl' : 'd1_hpge_spectra_31peaks_trainset.pkl',
+          'test_pkl' : 'null'
+          }
+
+d2_n31 = {'parent_dir' : 'train_d2_hpge_n31',
+          'ext_test' : '--no-ext-test',
+          'ratios' : '--no-ratios',
+          'train_pkl' : 'd2_hpge_spectra_31peaks_trainset.pkl',
+          'test_pkl' : 'null'
+          }
+
+train_d3 = {'parent_dir' : 'train_d3_czt',
+            'ext_test' : '--no-ext-test',
+            'ratios' : '--no-ratios',
+            'train_pkl' : 'd3_czt_spectra_31peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
@@ -132,4 +146,4 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
 #parent_jobs = [train_15, train_29, sfco_15, sfco_29, sfco_10ratio]
 #parent_jobs = [train_29, sfco_29]
 #parent_jobs = [good_train, bad_train, good_sfco, bad_sfco]
-parent_jobs = [train_d3,]# train_d4, train_d5, train_d6]
+parent_jobs = [d1_n31, d2_n31]
