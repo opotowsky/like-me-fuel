@@ -45,7 +45,7 @@ train_d5 = {'parent_dir' : 'train_d5_labr3',
 train_d6 = {'parent_dir' : 'train_d6_sri2',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd6_sri2_spectra_peaks_trainset.pkl',
+            'train_pkl' : 'd6_sri2_spectra_peaks_31trainset.pkl',
             'test_pkl' : 'null'
             }
 
@@ -143,7 +143,4 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
             'test_pkl' : 'sfco_bad.pkl'
             }
 
-#parent_jobs = [train_15, train_29, sfco_15, sfco_29, sfco_10ratio]
-#parent_jobs = [train_29, sfco_29]
-#parent_jobs = [good_train, bad_train, good_sfco, bad_sfco]
-parent_jobs = [d1_n31, d2_n31]
+parent_jobs = [train_d6]
