@@ -12,7 +12,7 @@ def row_calcs(ext_test, test_db):
     test_set = format_XY(test_db)
     db_rows = len(test_set.index)
     if 'no' in ext_test:
-        max_jobs = 2400
+        max_jobs = 8000 # only bc this allows same # of calcs as on other sets
         #max_jobs = 40
     else:
         # because sfco has 505 entries
