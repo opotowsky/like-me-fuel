@@ -14,6 +14,13 @@ test_acts = {'parent_dir' : 'test_acts',
              'test_pkl' : 'null'
              }
 
+train_act32 = {'parent_dir' : 'train_act32',
+               'ext_test' : '--no-ext-test',
+               'ratios' : '--no-ratios',
+               'train_pkl' : 'nuc32_activities_scaled_1g_reindex.pkl',
+               'test_pkl' : 'null'
+               }
+
 train_d1 = {'parent_dir' : 'train_d1_hpge',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
@@ -31,21 +38,21 @@ train_d2 = {'parent_dir' : 'train_d2_hpge',
 train_d4 = {'parent_dir' : 'train_d4_nai',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd4_nai_spectra_peaks_trainset.pkl',
+            'train_pkl' : 'd4_nai_spectra_31peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
 train_d5 = {'parent_dir' : 'train_d5_labr3',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd5_labr3_spectra_peaks_trainset.pkl',
+            'train_pkl' : 'd5_labr3_spectra_31peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
 train_d6 = {'parent_dir' : 'train_d6_sri2',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd6_sri2_spectra_peaks_31trainset.pkl',
+            'train_pkl' : 'd6_sri2_spectra_31peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
@@ -143,4 +150,4 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
             'test_pkl' : 'sfco_bad.pkl'
             }
 
-parent_jobs = [train_d6]
+parent_jobs = [train_d4, train_d5]
