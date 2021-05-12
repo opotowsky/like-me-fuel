@@ -9,10 +9,11 @@ from mll_calc.all_jobs import parent_jobs, kid_jobs
 from mll_calc.mll_pred import format_XY
 
 def row_calcs(ext_test, test_db):
-    test_set = format_XY(test_db)
-    db_rows = len(test_set.index)
+    #test_set = format_XY(test_db)
+    #db_rows = len(test_set.index)
+    db_rows = 440594
     if 'no' in ext_test:
-        max_jobs = 9900
+        max_jobs = 9750
         #max_jobs = 40
     else:
         # because sfco has 505 entries
@@ -58,7 +59,7 @@ def main():
     params_mll_calc.txt files
     
     """
-    parser = argparse.ArgumentParser(description='Performs maximum likelihood calculations for reactor parameter prediction.')
+    parser = argparse.ArgumentParser(description='Preps HTC params file for job submissions.')
     
     # possible filepaths, FYI:
     # /mnt/researchdrive/BOX_INTERNAL/opotowsky/some/folder/*.pkl

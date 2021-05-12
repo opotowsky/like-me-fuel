@@ -1,7 +1,8 @@
 #! /usr/bin/env python3
 
-uncs = [0.05,]# 0.1, 0.15, 0.2]
-job_dirs = ['Job' + str(i) + '_unc' + str(unc) for i, unc in enumerate(uncs)]
+uncs = [0.0,]# 0.1, 0.15, 0.2]
+#job_dirs = ['Job' + str(i) + '_unc' + str(unc) for i, unc in enumerate(uncs)]
+job_dirs = ['Job1_unc0.0',]
 
 kid_jobs = {'job_dirs' : job_dirs,
             'uncs' : uncs,
@@ -150,4 +151,4 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
             'test_pkl' : 'sfco_bad.pkl'
             }
 
-parent_jobs = [train_d4, train_d5]
+parent_jobs = [train_d1, d1_n31, train_d2, d2_n31, train_d3, train_d4, train_d5, train_d6]
