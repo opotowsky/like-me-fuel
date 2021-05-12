@@ -211,8 +211,13 @@ def get_pred(XY, test_sample, unc, lbls, nonlbls):
     unc_name = 'MaxLLUnc'
     X = XY.drop(lbls+nonlbls, axis=1).copy()
     
-    XY[ll_name] = X.apply(lambda row: ll_calc(row, test_sample, unc*row), axis=1)
-    XY[unc_name] = X.apply(lambda row: unc_calc(row, test_sample, (unc*row)**2, (unc*test_sample)**2), axis=1)
+    # unc arg of 0 indicates for the script to use sqrt(counts) uncertainty
+    if unc == 0.0:
+        XY[ll_name] = X.apply(lambda row: ll_calc(row, test_sample, np.sqrt(row)), axis=1)
+        XY[unc_name] = X.apply(lambda row: unc_calc(row, test_sample, row, test_sample), axis=1)
+    else:
+        XY[ll_name] = X.apply(lambda row: ll_calc(row, test_sample, unc*row), axis=1)
+        XY[unc_name] = X.apply(lambda row: unc_calc(row, test_sample, (unc*row)**2, (unc*test_sample)**2), axis=1)
     
     pred_row = XY.loc[XY.index == XY[ll_name].idxmax()].copy()
     pred_ll, cdf_cols = ll_cdf(pred_row, XY[[ll_name, unc_name]]) 
@@ -345,8 +350,7 @@ def parse_args(args):
     parser = argparse.ArgumentParser(description='Performs maximum likelihood calculations for reactor parameter prediction.')
     
     # local filepaths, FYI:
-    # train_db = '~/sims_n_results/simupdates_aug2020/not-scaled_nucXX.pkl' # nuclide concentrations
-    # train_db = '~/sims_n_results/final_sims_nov2020/not-scaled_nucXX.pkl' # processed spectra
+    # train_db = '/mnt/researchdrive/BOX_INTERNAL/opotowsky/*.pkl
     # test_db = '~/sfcompo/format_clean/sfcompo_nucXX.pkl'
     
     parser.add_argument('outdir', metavar='output-directory',  
@@ -410,8 +414,8 @@ def main():
     else: 
         test = XY.iloc[args.db_rows[0]:args.db_rows[1]]
         # this is a fix for the now too-large db to test every entry
-        # 5 lines per job, with max_jobs currently set to 2400 
-        # (~3% of db is tested)
+        # 3 lines per job, with max_jobs currently set to 9900
+        # (~6% of db is tested)
         test = test.sample(3)
         
     # TODO: need some better way to handle varying ratio lists
