@@ -21,7 +21,7 @@ train_act4 = {'parent_dir' : 'train_act4',
 train_act9 = {'parent_dir' : 'train_act9',
               'ext_test' : '--no-ext-test',
               'ratios' : '--no-ratios',
-              'train_pkl' : 'nuc32_activities_scaled_1g_reindex.pkl',
+              'train_pkl' : 'nuc9_activities_scaled_1g_reindex.pkl',
               'test_pkl' : 'null'
               }
 
@@ -116,6 +116,48 @@ d6_n31 = {'parent_dir' : 'train_d6_sri2_n31',
           'test_pkl' : 'null'
           }
 
+d1_auto = {'parent_dir' : 'train_d1_hpge_auto',
+           'ext_test' : '--no-ext-test',
+           'ratios' : '--no-ratios',
+           'train_pkl' : 'd1_hpge_spectra_auto_peaks_trainset.pkl',
+           'test_pkl' : 'null'
+           }
+
+d2_auto = {'parent_dir' : 'train_d2_hpge_auto',
+           'ext_test' : '--no-ext-test',
+           'ratios' : '--no-ratios',
+           'train_pkl' : 'd2_hpge_spectra_auto_peaks_trainset.pkl',
+           'test_pkl' : 'null'
+           }
+
+d3_auto = {'parent_dir' : 'train_d3_czt_auto',
+           'ext_test' : '--no-ext-test',
+           'ratios' : '--no-ratios',
+           'train_pkl' : 'd3_czt_spectra_auto_peaks_trainset.pkl',
+           'test_pkl' : 'null'
+           }
+
+d4_auto = {'parent_dir' : 'train_d4_nai_auto',
+           'ext_test' : '--no-ext-test',
+           'ratios' : '--no-ratios',
+           'train_pkl' : 'd4_nai_spectra_auto_peaks_trainset.pkl',
+           'test_pkl' : 'null'
+           }
+
+d5_auto = {'parent_dir' : 'train_d5_labr3_auto',
+           'ext_test' : '--no-ext-test',
+           'ratios' : '--no-ratios',
+           'train_pkl' : 'd5_labr3_spectra_auto_peaks_trainset.pkl',
+           'test_pkl' : 'null'
+           }
+
+d6_auto = {'parent_dir' : 'train_d6_sri2_auto',
+           'ext_test' : '--no-ext-test',
+           'ratios' : '--no-ratios',
+           'train_pkl' : 'd6_sri2_spectra_auto_peaks_trainset.pkl',
+           'test_pkl' : 'null'
+           }
+
 train_29 = {'parent_dir' : 'train29',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
@@ -175,4 +217,4 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
             'test_pkl' : 'sfco_bad.pkl'
             }
 
-parent_jobs = [d2_n31, d3_n31, d4_n31, d5_n31]
+parent_jobs = [d1_auto, d2_auto, d3_auto, d4_auto, d5_auto, d6_auto]
