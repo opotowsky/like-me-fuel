@@ -25,6 +25,15 @@ def get_params_info(sub_type):
                       'train_pkl' : 'nuc9_activities_scaled_1g_reindex.pkl',
                       'test_pkl' : 'null'
                       }
+    elif sub_type == 'd3_auto':
+        unc = 0.0
+        job_dir = 'Job1_unc0.0'
+        parent_job = {'parent_dir' : 'train_d3_czt_auto',
+                      'ext_test' : '--no-ext-test',
+                      'ratios' : '--no-ratios',
+                      'train_pkl' : 'd3_czt_spectra_auto_peaks_trainset.pkl',
+                      'test_pkl' : 'null'
+                      }
     else:
         sys.exit()
 
@@ -59,8 +68,8 @@ def main():
     parser = argparse.ArgumentParser(description='Parses failed jobs and saves those in a params.txt file')
     parser.add_argument('failed', metavar='failed-jobs-list',
                         help='list of failed jobs')
-    parser.add_argument('sub_descrip', metavar='submission-description', choices=['act9', 'd3_n31'],
-                        help='to which submission are you referring')
+    parser.add_argument('sub_descrip', metavar='submission-description',
+                        help='to which submission are you referring, e.g. d3_auto')
     args = parser.parse_args(sys.argv[1:])
 
     fail_file = args.failed
