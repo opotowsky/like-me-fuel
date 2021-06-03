@@ -8,10 +8,11 @@ import pandas as pd
 from pathlib import Path
 
 @pytest.mark.parametrize('exp, bool_argv',
-                         [(11, ['--no-ext-test', '--no-ratios']),
+                         [(4, ['--no-ext-test', '--no-ratios']), # currently, only 3 samples per submission are tested
                           (3, ['--ext-test', '--no-ratios']),
-                          (11, ['--no-ext-test', '--ratios']),
-                          (3, ['--ext-test', '--ratios'])
+                          # can't test ratios with 29-nuc set since ratios weren't defined for this set
+                          #(11, ['--no-ext-test', '--ratios']),
+                          #(3, ['--ext-test', '--ratios'])
                           ]
                          )
 def test_integration(tmpdir, exp, bool_argv):

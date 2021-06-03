@@ -349,18 +349,14 @@ def parse_args(args):
     """
     parser = argparse.ArgumentParser(description='Performs maximum likelihood calculations for reactor parameter prediction.')
     
-    # local filepaths, FYI:
-    # train_db = '/mnt/researchdrive/BOX_INTERNAL/opotowsky/*.pkl
-    # test_db = '~/sfcompo/format_clean/sfcompo_nucXX.pkl'
-    
     parser.add_argument('outdir', metavar='output-directory',  
                         help='directory in which to organize output csv')
     parser.add_argument('sim_unc', metavar='sim-uncertainty', type=float,
                         help='value of simulation uncertainty (in fraction) to apply to likelihood calculations')
     parser.add_argument('train_db', metavar='reactor-db', 
-                        help='file path to a training set')
+                        help='file path to a training set, e.g. /mnt/researchdrive/BOX_INTERNAL/opotowsky/*.pkl')
     parser.add_argument('test_db', metavar='testing-set', 
-                        help='file path to an external testing set')
+                        help='file path to an external testing set, e.g. ~/sfcompo/format_clean/sfcompo_nucXX.pkl')
     parser.add_argument('outfile', metavar='csv-output',  
                         help='name for csv output file')
     parser.add_argument('db_rows', metavar='db-interval', nargs=2, type=int, 
