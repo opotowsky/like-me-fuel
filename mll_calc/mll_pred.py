@@ -429,8 +429,7 @@ def main():
         # this is a fix for the now too-large db to test every entry
         # 3 lines per job, with max_jobs currently set to 9900
         # (~6% of db is tested)
-        #test = test.sample(3)
-        test = test.loc[[1082]]
+        test = test.sample(3)
         
     # TODO: need some better way to handle varying ratio lists
     tamu_list = ['cs137/cs133', 'cs134/cs137', 'cs135/cs137', 'ba136/ba138', 

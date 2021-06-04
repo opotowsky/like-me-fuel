@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-from mll_calc.mll_pred import unc_calc, format_XY, ratios, format_pred, ll_cdf, get_pred, mll_testset, parse_args
+from mll_calc.mll_pred import ll_calc, unc_calc, format_XY, ratios, format_pred, ll_cdf, get_pred, mll_testset, parse_args
 import pickle
 import pytest
 import numpy as np
@@ -24,13 +24,28 @@ def calc_ll_exp(x, std):
     ll = -0.5 * ((x / std)**2 + np.log(2 * np.pi) + 2 * np.log(std))
     return ll
 
+def test_ll_calc():
+    unc = 1
+    X = np.array([[1, 1, 1],
+                  [10, 10, 10]
+                  ]) 
+    y = np.array([0, 1, 10])
+    idx = np.nonzero(y)[0]
+    X = X[:,idx]
+    y = y[idx]
+    exp = np.sum(calc_ll_exp(X-y, unc*X), axis=1)
+    obs = ll_calc(X, y, unc)
+    assert np.array_equal(obs, exp)
+
 def test_unc_calc():
     unc = 1
-    y1 = pd.Series([1, 2, np.nan, 0])
-    y2 = pd.Series([0, 1, np.nan, 10])
-    exp = np.sqrt(5/16)
-    obs = unc_calc(y1, y2, (unc * y1)**2, (unc * y2)**2)
-    assert obs == exp
+    X = np.array([[1, 2, np.nan, 0],
+                  [0, 0, 0, 0]
+                  ]) 
+    y = np.array([0, 1, np.nan, 10])
+    exp = np.array([np.sqrt(5/16), 0])
+    obs = unc_calc(X, y, unc)
+    assert np.array_equal(obs, exp)
     
 def test_format_XY(tmpdir, dfXY):
     XY = pd.DataFrame({'feature' : [1, 2, 3],
