@@ -7,75 +7,98 @@ import numpy as np
 import pandas as pd
 import scipy.stats as stats
 
-def like_calc(y_sim, y_mes, std):
+def like_calc(X, y_test, unc):
     """
     Given a simulated entry with uncertainty and a test entry, calculates the
     likelihood that they are the same. 
     
     Parameters
     ----------
-    y_sim : series of nuclide measurements for simulated entry
-    y_mes : series of nuclide measurements for test ("measured") entry
-    std : standard deviation for each entry in y_sim
+    X : numpy array (train DB) of nuclide measurements for simulated entry
+    y_test : numpy array (single row) of nuclide measurements for test
+             ("measured") entry
+    unc : float representing flat uncertainty percentage, or 0.0 indicated
+          counting error
 
     Returns
     -------
     like: likelihood that the test entry is the simulated entry
 
     """
-    y_sim = y_sim[y_mes>0]
-    std = std[y_mes>0]
-    y_mes = y_mes[y_mes>0]
-    like = np.prod(stats.norm.pdf(y_sim, loc=y_mes, scale=std))
+    # TODO UNTESTED CODE (but not recently in use)
+    idx = np.nonzero(y_test)[0]
+    y_test = y_test[idx]
+    X = X[:, idx]
+    # unc arg of 0 indicates for the script to use sqrt(counts) uncertainty
+    if unc == 0.0:
+        std = np.sqrt(X)    
+    else:
+        std = unc * X
+    like = np.prod(stats.norm.pdf(X, loc=y_test, scale=std), axis=1)
     return like
 
-def ll_calc(y_sim, y_mes, std):
+def ll_calc(X, y_test, unc):
     """
     Given a simulated entry with uncertainty and a test entry, calculates the
     log-likelihood that they are the same. 
 
     Parameters
     ----------
-    y_sim : series of nuclide measurements for simulated entry
-    y_mes : series of nuclide measurements for test ("measured") entry
-    std : standard deviation for each entry in y_sim
+    X : numpy array (train DB) of nuclide measurements for simulated entry
+    y_test : numpy array (single row) of nuclide measurements for test
+             ("measured") entry
+    unc : float representing flat uncertainty percentage, or 0.0 indicated
+          counting error
 
     Returns
     -------
-    ll: log-likelihood that the test entry is the simulated entry
+    ll: numpy array of log-likelihoods that the test entry is the simulated 
+        entry for each entry in the DB
 
     """
-    y_sim = y_sim[y_mes>0]
-    std = std[y_mes>0]
-    y_mes = y_mes[y_mes>0]
-    ll = np.sum(stats.norm.logpdf(y_sim, loc=y_mes, scale=std))
+    idx = np.nonzero(y_test)[0]
+    y_test = y_test[idx]
+    X = X[:, idx]
+    # unc arg of 0 indicates for the script to use sqrt(counts) uncertainty
+    if unc == 0.0:
+        std = np.sqrt(X) 
+    else:
+        std = unc * X
+    ll = np.sum(stats.norm.logpdf(X, loc=y_test, scale=std), axis=1)
     return ll
 
-def unc_calc(y_sim, y_mes, sim_unc_sq, mes_unc_sq):
+def unc_calc(X, y_test, unc):
     """
     Given a simulated entry and a test entry with uniform uncertainty,
     calculates the uncertainty in the log-likelihood calculation. 
 
     Parameters
     ----------
-    y_sim : series of nuclide measurements for simulated entry
-    y_mes : series of nuclide measurements for test ("measured") entry
-    sim_unc_sq : float of squared uniform uncertainty for each entry in y_sim
-    mes_unc_sq : float of squared uniform uncertainty for each entry in y_mes
+    X : numpy array (train DB) of nuclide measurements for simulated entry
+    y_test : numpy array (single row) of nuclide measurements for test
+             ("measured") entry
+    unc : float representing flat uncertainty percentage, or 0.0 indicated
+          counting error
 
     Returns
     -------
-    ll_unc: uncertainty of the log-likelihood calculation
+    ll_unc: numpy array of log-likelihood uncertainties for each DB entry
 
     """
-    y_sim = y_sim[y_mes>0]
-    sim_unc_sq = sim_unc_sq[y_mes>0]
-    mes_unc_sq = mes_unc_sq[y_mes>0]
-    y_mes = y_mes[y_mes>0]
-    unc = ((y_sim - y_mes) / sim_unc_sq)**2 * (sim_unc_sq + mes_unc_sq)
-    unc.replace([np.inf, -np.inf], 0, inplace=True)
-    unc.fillna(0, inplace=True)
-    ll_unc = np.sqrt(unc.sum())
+    idx = np.nonzero(y_test)[0]
+    y_test = y_test[idx]
+    X = X[:, idx]
+    # unc arg of 0 indicates for the script to use sqrt(counts) uncertainty
+    if unc == 0.0:
+        sim_unc_sq = X
+        tst_unc_sq = y_test
+    else:
+        sim_unc_sq = (unc * X)**2
+        tst_unc_sq = (unc * y_test)**2
+    unc_array = ((X - y_test) / sim_unc_sq)**2 * (sim_unc_sq + tst_unc_sq)
+    np.nan_to_num(unc_array, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
+    unc_array = np.array(unc_array, dtype=np.float64)
+    ll_unc = np.sqrt(np.sum(unc_array, axis=1))
     return ll_unc
 
 def ratios(XY, ratio_list, labels):
@@ -193,7 +216,7 @@ def get_pred(XY, test_sample, unc, lbls, nonlbls):
     Parameters
     ----------
     XY : dataframe with nuclide measurements and reactor parameters
-    test_sample : series of a sample to be predicted (nuclide measurements 
+    test_sample : numpy array of a sample to be predicted (nuclide measurements 
                   only)
     unc : float that represents the simulation uncertainty in nuclide 
           measurements
@@ -209,16 +232,10 @@ def get_pred(XY, test_sample, unc, lbls, nonlbls):
     """
     ll_name = 'MaxLogLL'
     unc_name = 'MaxLLUnc'
-    X = XY.drop(lbls+nonlbls, axis=1).copy()
-    
-    # unc arg of 0 indicates for the script to use sqrt(counts) uncertainty
-    if unc == 0.0:
-        XY[ll_name] = X.apply(lambda row: ll_calc(row, test_sample, np.sqrt(row)), axis=1)
-        XY[unc_name] = X.apply(lambda row: unc_calc(row, test_sample, row, test_sample), axis=1)
-    else:
-        XY[ll_name] = X.apply(lambda row: ll_calc(row, test_sample, unc*row), axis=1)
-        XY[unc_name] = X.apply(lambda row: unc_calc(row, test_sample, (unc*row)**2, (unc*test_sample)**2), axis=1)
-    
+    X = XY.drop(lbls+nonlbls, axis=1).copy().to_numpy()
+    XY[ll_name] = ll_calc(X, test_sample, unc)
+    XY[unc_name] = unc_calc(X, test_sample, unc)
+
     pred_row = XY.loc[XY.index == XY[ll_name].idxmax()].copy()
     pred_ll, cdf_cols = ll_cdf(pred_row, XY[[ll_name, unc_name]]) 
     cdf_cols = [ll_name, unc_name] + cdf_cols
@@ -258,12 +275,12 @@ def mll_testset(XY, test, ext_test, unc, lbls, nonlbls):
         if ext_test:
             test_sample = row.drop(lbls)
             test_answer = row[lbls]
-            pred_ll = get_pred(XY, test_sample, unc, lbls, nonlbls)
+            pred_ll = get_pred(XY, test_sample.to_numpy(), unc, lbls, nonlbls)
             all_lbls = lbls
         else:
             test_sample = row.drop(lbls+nonlbls)
             test_answer = row[lbls+nonlbls]
-            pred_ll = get_pred(XY.drop(sim_idx), test_sample, unc, lbls, nonlbls)
+            pred_ll = get_pred(XY.drop(sim_idx), test_sample.to_numpy(), unc, lbls, nonlbls)
             all_lbls = lbls + nonlbls
         if pred_df.empty:
             pred_df = pd.DataFrame(columns = pred_ll.columns.to_list())
@@ -412,7 +429,8 @@ def main():
         # this is a fix for the now too-large db to test every entry
         # 3 lines per job, with max_jobs currently set to 9900
         # (~6% of db is tested)
-        test = test.sample(3)
+        #test = test.sample(3)
+        test = test.loc[[1082]]
         
     # TODO: need some better way to handle varying ratio lists
     tamu_list = ['cs137/cs133', 'cs134/cs137', 'cs135/cs137', 'ba136/ba138', 
