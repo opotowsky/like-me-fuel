@@ -8,16 +8,13 @@ import pandas as pd
 from mll_calc.all_jobs import parent_jobs, kid_jobs
 from mll_calc.mll_pred import format_XY
 
-def row_calcs(ext_test, test_db):
-    #test_set = format_XY(test_db)
-    #db_rows = len(test_set.index)
-    db_rows = 440594
+def row_calcs(ext_test):
     if 'no' in ext_test:
-        max_jobs = 9750
-        #max_jobs = 40
+        db_rows = 900480
+        max_jobs = 9800
     else:
-        # because sfco has 505 entries
-        max_jobs = 1
+        db_rows = 505
+        max_jobs = 10
     n_rows = db_rows // max_jobs
     init_rows = np.arange(0, db_rows, n_rows).tolist()
     end_rows = init_rows[1:]
@@ -36,10 +33,10 @@ def row_calcs(ext_test, test_db):
     ################################################
     return init_rows, end_rows
 
-def make_paramstxt(parent_job, kid_jobs, test_db):
+def make_paramstxt(parent_job, kid_jobs):
     parent_dir = parent_job['parent_dir']
     fname = parent_dir + '_params.txt'
-    init_rows, end_rows = row_calcs(parent_job['ext_test'], test_db)
+    init_rows, end_rows = row_calcs(parent_job['ext_test'])
     with open(fname, 'w') as f:
         w = csv.writer(f) 
         for kid_dir, unc in zip(kid_jobs['job_dirs'], kid_jobs['uncs']):
@@ -59,19 +56,8 @@ def main():
     params_mll_calc.txt files
     
     """
-    parser = argparse.ArgumentParser(description='Preps HTC params file for job submissions.')
-    
-    # possible filepaths, FYI:
-    # /mnt/researchdrive/BOX_INTERNAL/opotowsky/some/folder/*.pkl
-    # '~/sims_n_results/simupdates_aug2020/not-scaled_nucXX.pkl'
-    # '~/sims_n_results/final_sims_nov2020/not-scaled_nucXX.pkl'
-    # '~/sfcompo/format_clean/sfcompo_nucXX.pkl'    
-    parser.add_argument('testdb', metavar='test-database',  
-                        help='full filepath to testing database (sfco or trainset)')
-    args = parser.parse_args(sys.argv[1:])
-    
     for parent_job in parent_jobs:
-        make_paramstxt(parent_job, kid_jobs, args.testdb)
+        make_paramstxt(parent_job, kid_jobs)
     return
     
 if __name__ == "__main__":

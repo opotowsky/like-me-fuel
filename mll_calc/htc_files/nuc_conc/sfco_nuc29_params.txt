@@ -1,0 +1,11 @@
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0000,0,50,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0001,50,100,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0002,100,150,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0003,150,200,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0004,200,250,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0005,250,300,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0006,300,350,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0007,350,400,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0008,400,450,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0009,450,500,--ext-test,--no-ratios
+sfco_nuc29/Job0_unc0.01,0.01,sim_grams_nuc29.pkl,sfcompo_nuc29.pkl,0010,500,505,--ext-test,--no-ratios
