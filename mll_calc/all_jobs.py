@@ -5,33 +5,33 @@
 #job_dirs = ['Job2_unc0.0',]
 
 # activities
-#uncs = [0.05,]
-#job_dirs = ['Job2_unc0.05',]
+uncs = [0.05,]
+job_dirs = ['Job2_unc0.05',]
 
 # nuclide masses
 #uncs = [0.01, 0.05, 0.1, 0.15, 0.2]
 #job_dirs = ['Job' + str(i) + '_unc' + str(unc) for i, unc in enumerate(uncs)]
 
 # sfcompo
-uncs = [0.01,]
-job_dirs = ['Job0_unc0.01',]
+#uncs = [0.01,]
+#job_dirs = ['Job0_unc0.01',]
 
 
 kid_jobs = {'job_dirs' : job_dirs,
             'uncs' : uncs,
             }
 
-train_act4 = {'parent_dir' : 'train_act4',
+train_act7 = {'parent_dir' : 'train_act7',
               'ext_test' : '--no-ext-test',
               'ratios' : '--no-ratios',
-              'train_pkl' : 'nuc4_activities_scaled_1g_reindex.pkl',
+              'train_pkl' : 'nuc7_activities_scaled_1g_reindex.pkl',
               'test_pkl' : 'null'
               }
 
-train_act9 = {'parent_dir' : 'train_act9',
+train_act12 = {'parent_dir' : 'train_act12',
               'ext_test' : '--no-ext-test',
               'ratios' : '--no-ratios',
-              'train_pkl' : 'nuc9_activities_scaled_1g_reindex.pkl',
+              'train_pkl' : 'nuc12_activities_scaled_1g_reindex.pkl',
               'test_pkl' : 'null'
               }
 
@@ -230,6 +230,6 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
 #parent_jobs = [d1_auto, d2_auto, d3_auto, d4_auto, d5_auto, d6_auto,
 #               d1_short, d2_short, d3_short, d4_short, d5_short, d6_short,
 #               d1_long, d2_long, d3_long, d4_long, d5_long, d6_long]
-#parent_jobs = [train_act4, train_act9, train_act32]
+parent_jobs = [train_act7, train_act12, train_act32]
 #parent_jobs = [train_nuc29,]
-parent_jobs = [sfco_nuc29,]
+#parent_jobs = [sfco_nuc29,]
