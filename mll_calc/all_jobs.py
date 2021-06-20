@@ -1,12 +1,12 @@
 #! /usr/bin/env python3
 
 # detectors
-#uncs = [0.0,]
-#job_dirs = ['Job2_unc0.0',]
+uncs = [0.0,]
+job_dirs = ['Job2_unc0.0',]
 
 # activities
-uncs = [0.05,]
-job_dirs = ['Job2_unc0.05',]
+#uncs = [0.05,]
+#job_dirs = ['Job2_unc0.05',]
 
 # nuclide masses
 #uncs = [0.01, 0.05, 0.1, 0.15, 0.2]
@@ -45,84 +45,84 @@ train_act32 = {'parent_dir' : 'train_act32',
 d1_long = {'parent_dir' : 'train_d1_hpge_long',
            'ext_test' : '--no-ext-test',
            'ratios' : '--no-ratios',
-           'train_pkl' : 'd1_hpge_spectra_113peaks_trainset.pkl',
+           'train_pkl' : 'd1_hpge_spectra_long_peaks_trainset.pkl',
            'test_pkl' : 'null'
            }
 
 d2_long = {'parent_dir' : 'train_d2_hpge_long',
            'ext_test' : '--no-ext-test',
            'ratios' : '--no-ratios',
-           'train_pkl' : 'd2_hpge_spectra_113peaks_trainset.pkl',
+           'train_pkl' : 'd2_hpge_spectra_long_peaks_trainset.pkl',
            'test_pkl' : 'null'
            }
 
 d3_long = {'parent_dir' : 'train_d3_czt_long',
            'ext_test' : '--no-ext-test',
            'ratios' : '--no-ratios',
-           'train_pkl' : 'd3_czt_spectra_113peaks_trainset.pkl',
+           'train_pkl' : 'd3_czt_spectra_long_peaks_trainset.pkl',
            'test_pkl' : 'null'
            }
 
 d4_long = {'parent_dir' : 'train_d4_nai_long',
            'ext_test' : '--no-ext-test',
            'ratios' : '--no-ratios',
-           'train_pkl' : 'd4_nai_spectra_113peaks_trainset.pkl',
+           'train_pkl' : 'd4_nai_spectra_long_peaks_trainset.pkl',
            'test_pkl' : 'null'
            }
 
 d5_long = {'parent_dir' : 'train_d5_labr3_long',
            'ext_test' : '--no-ext-test',
            'ratios' : '--no-ratios',
-           'train_pkl' : 'd5_labr3_spectra_113peaks_trainset.pkl',
+           'train_pkl' : 'd5_labr3_spectra_long_peaks_trainset.pkl',
            'test_pkl' : 'null'
            }
 
 d6_long = {'parent_dir' : 'train_d6_sri2_long',
            'ext_test' : '--no-ext-test',
            'ratios' : '--no-ratios',
-           'train_pkl' : 'd6_sri2_spectra_113peaks_trainset.pkl',
+           'train_pkl' : 'd6_sri2_spectra_long_peaks_trainset.pkl',
            'test_pkl' : 'null'
            }
 
 d1_short = {'parent_dir' : 'train_d1_hpge_short',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd1_hpge_spectra_31peaks_trainset.pkl',
+            'train_pkl' : 'd1_hpge_spectra_short_peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
 d2_short = {'parent_dir' : 'train_d2_hpge_short',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd2_hpge_spectra_31peaks_trainset.pkl',
+            'train_pkl' : 'd2_hpge_spectra_short_peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
 d3_short = {'parent_dir' : 'train_d3_czt_short',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd3_czt_spectra_31peaks_trainset.pkl',
+            'train_pkl' : 'd3_czt_spectra_short_peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
 d4_short = {'parent_dir' : 'train_d4_nai_short',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd4_nai_spectra_31peaks_trainset.pkl',
+            'train_pkl' : 'd4_nai_spectra_short_peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
 d5_short = {'parent_dir' : 'train_d5_labr3_short',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd5_labr3_spectra_31peaks_trainset.pkl',
+            'train_pkl' : 'd5_labr3_spectra_short_peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
 d6_short = {'parent_dir' : 'train_d6_sri2_short',
             'ext_test' : '--no-ext-test',
             'ratios' : '--no-ratios',
-            'train_pkl' : 'd6_sri2_spectra_31peaks_trainset.pkl',
+            'train_pkl' : 'd6_sri2_spectra_short_peaks_trainset.pkl',
             'test_pkl' : 'null'
             }
 
@@ -227,9 +227,9 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
             'test_pkl' : 'sfco_bad.pkl'
             }
 
-#parent_jobs = [d1_auto, d2_auto, d3_auto, d4_auto, d5_auto, d6_auto,
-#               d1_short, d2_short, d3_short, d4_short, d5_short, d6_short,
-#               d1_long, d2_long, d3_long, d4_long, d5_long, d6_long]
-parent_jobs = [train_act7, train_act12, train_act32]
+parent_jobs = [d1_auto, d2_auto, d3_auto, d4_auto, d5_auto, d6_auto,
+               d1_short, d2_short, d3_short, d4_short, d5_short, d6_short,
+               d1_long, d2_long, d3_long, d4_long, d5_long, d6_long]
+#parent_jobs = [train_act7, train_act12, train_act32]
 #parent_jobs = [train_nuc29,]
 #parent_jobs = [sfco_nuc29,]
