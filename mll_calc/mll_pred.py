@@ -303,7 +303,7 @@ def check_traindb_equal(final, db_path, arg_ratios, ratio_list, lbls):
     lbls : all non-features (prediction labels and non-prediction labels)
     
     """
-    initial = format_XY(db_path)
+    initial = pd.read_pickle(db_path)
     if arg_ratios == True:
         initial = ratios(initial, ratio_list, lbls)
     if not initial.equals(final):
@@ -329,26 +329,6 @@ def convert_g_to_mgUi(XY, Y_list):
     nucs = XY.columns[~XY.columns.isin(Y_list)].tolist()
     # [x (g) / 1e6 (gUi)] * [1000 (mg) / 1 (g)] = x / 1000
     XY[nucs] = XY[nucs].div(1000, axis=0)
-    return XY
-
-def format_XY(db_path):
-    """
-    Fetches training database given a filepath
-
-    Parameters
-    ----------
-    db_path : path to pkl file containing training database
-
-    Returns
-    -------
-    XY : cleaned and formatted training database
-    
-    """
-    XY = pd.read_pickle(db_path)
-    if 'total' in XY.columns:
-        XY.drop('total', axis=1, inplace=True)
-    XY = XY.loc[XY['Burnup'] > 0]
-    XY.reset_index(inplace=True, drop=True)
     return XY
 
 def parse_args(args):
@@ -403,7 +383,9 @@ def main():
     args = parse_args(sys.argv[1:])
 
     # training set
-    XY = format_XY(args.train_db)
+    XY = pd.read_pickle(args.train_db)
+    if 'total' in XY.columns:
+        XY.drop('total', axis=1, inplace=True)
     
     lbls = ['ReactorType', 'CoolingTime', 'Enrichment', 'Burnup', 
             'OrigenReactor']

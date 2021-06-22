@@ -47,19 +47,6 @@ def test_unc_calc():
     obs = unc_calc(X, y, unc)
     assert np.array_equal(obs, exp)
     
-def test_format_XY(tmpdir, dfXY):
-    XY = pd.DataFrame({'feature' : [1, 2, 3],
-                       'total' : [1, 2, 3],
-                       'Burnup' : [1, 0, 1]},
-                       index = [0, 1, 2])
-    pkl_db = tmpdir.join('db.pkl')
-    pickle.dump(XY, open(pkl_db, 'wb'))
-    exp = pd.DataFrame({'feature' : [1, 3], 
-                        'Burnup' : [1, 1]},
-                        index = [0, 1])
-    obs = format_XY(pkl_db)
-    assert obs.equals(exp)
-
 def test_ratios():
     ratio_list = ['A/B', 'B/A']
     labels = ['label']
