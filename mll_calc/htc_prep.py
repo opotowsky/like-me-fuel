@@ -36,9 +36,11 @@ def make_paramstxt(parent_job, kid_jobs):
     parent_dir = parent_job['parent_dir']
     fname = parent_dir + '_params.txt'
     init_rows, end_rows = row_calcs(parent_job['ext_test'])
-    with open(fname, 'w') as f:
-        w = csv.writer(f) 
-        for kid_dir, unc in zip(kid_jobs['job_dirs'], kid_jobs['uncs']):
+    for unc_num, (kid_dir, unc) in enumerate(zip(kid_jobs['job_dirs'], kid_jobs['uncs'])):
+        if parent_dir == 'train_nuc29': 
+            fname = parent_dir + '_' + str(unc_num) + '_params.txt'
+        with open(fname, 'w') as f:
+            w = csv.writer(f)
             job_dir = parent_dir + '/' + kid_dir
             for i in range(0, len(init_rows)):
                 job = [job_dir, unc, 
