@@ -6,12 +6,11 @@ import argparse
 import numpy as np
 import pandas as pd
 from mll_calc.all_jobs import parent_jobs, kid_jobs
-from mll_calc.mll_pred import format_XY
 
 def row_calcs(ext_test):
     if 'no' in ext_test:
-        db_rows = 900480
-        max_jobs = 9800
+        db_rows = 450240
+        max_jobs = 9750
     else:
         db_rows = 505
         max_jobs = 10

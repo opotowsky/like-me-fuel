@@ -1,16 +1,16 @@
 #! /usr/bin/env python3
 
 # detectors
-uncs = [0.0,]
-job_dirs = ['Job2_unc0.0',]
+#uncs = [0.0,]
+#job_dirs = ['Job2_unc0.0',]
 
 # activities
-#uncs = [0.05,]
-#job_dirs = ['Job2_unc0.05',]
+#uncs = [0.01,]
+#job_dirs = ['Job2_unc0.01',]
 
 # nuclide masses
-#uncs = [0.01, 0.05, 0.1, 0.15, 0.2]
-#job_dirs = ['Job' + str(i) + '_unc' + str(unc) for i, unc in enumerate(uncs)]
+uncs = [0.01, 0.05, 0.1, 0.15, 0.2]
+job_dirs = ['Job' + str(i) + '_unc' + str(unc) for i, unc in enumerate(uncs)]
 
 # sfcompo
 #uncs = [0.01,]
@@ -227,9 +227,9 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
             'test_pkl' : 'sfco_bad.pkl'
             }
 
-parent_jobs = [d1_auto, d2_auto, d3_auto, d4_auto, d5_auto, d6_auto,
-               d1_short, d2_short, d3_short, d4_short, d5_short, d6_short,
-               d1_long, d2_long, d3_long, d4_long, d5_long, d6_long]
+#parent_jobs = [d1_auto, d2_auto, d3_auto, d4_auto, d5_auto, d6_auto,
+#               d1_short, d2_short, d3_short, d4_short, d5_short, d6_short,
+#               d1_long, d2_long, d3_long, d4_long, d5_long, d6_long]
 #parent_jobs = [train_act7, train_act12, train_act32]
-#parent_jobs = [train_nuc29,]
+parent_jobs = [train_nuc29,]
 #parent_jobs = [sfco_nuc29,]
