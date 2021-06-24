@@ -9,8 +9,11 @@ from mll_calc.all_jobs import parent_jobs, kid_jobs
 
 def row_calcs(ext_test):
     if 'no' in ext_test:
-        db_rows = 450240
-        max_jobs = 9750
+        #db_rows = 450240
+        #max_jobs = 9750
+        # rxtr-type study, change based on num entries
+        db_rows = 6720 #120960 #322560
+        max_jobs = 146 #2629 #7012
     else:
         db_rows = 505
         max_jobs = 10
@@ -39,7 +42,8 @@ def make_paramstxt(parent_job, kid_jobs):
     for unc_num, (kid_dir, unc) in enumerate(zip(kid_jobs['job_dirs'], kid_jobs['uncs'])):
         if parent_dir == 'train_nuc29': 
             fname = parent_dir + '_' + str(unc_num) + '_params.txt'
-        with open(fname, 'w') as f:
+        #with open(fname, 'w') as f:
+        with open(fname, 'a') as f:
             w = csv.writer(f)
             job_dir = parent_dir + '/' + kid_dir
             for i in range(0, len(init_rows)):
