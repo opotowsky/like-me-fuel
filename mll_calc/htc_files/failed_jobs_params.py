@@ -7,58 +7,40 @@ import numpy as np
 
 def get_params_info(sub_type):
     # copied some stuff in from all_jobs related to partially failed submissions
-    if sub_type == 'd3_n31':
+    if sub_type == 'd1_auto':
         unc = 0.0
-        job_dir = 'Job1_unc0.0'
-        parent_job = {'parent_dir' : 'train_d3_czt_n31',
+        job_dir = 'Job2_unc0.0'
+        parent_job = {'parent_dir' : 'train_d1_hpge_auto',
                       'ext_test' : '--no-ext-test',
                       'ratios' : '--no-ratios',
-                      'train_pkl' : 'd3_czt_spectra_31peaks_trainset.pkl',
+                      'train_pkl' : 'd1_hpge_spectra_auto_peaks_trainset.pkl',
                       'test_pkl' : 'null'
                       }
-    elif sub_type == 'act9':
-        unc = 0.05
-        job_dir = 'Job0_unc0.05'
-        parent_job = {'parent_dir' : 'train_act9',
+    elif sub_type == 'd2_auto':
+        unc = 0.0
+        job_dir = 'Job2_unc0.0'
+        parent_job = {'parent_dir' : 'train_d2_hpge_auto',
                       'ext_test' : '--no-ext-test',
                       'ratios' : '--no-ratios',
-                      'train_pkl' : 'nuc9_activities_scaled_1g_reindex.pkl',
+                      'train_pkl' : 'd2_hpge_spectra_auto_peaks_trainset.pkl',
                       'test_pkl' : 'null'
                       }
-    elif sub_type == 'd3_auto':
+    elif sub_type == 'd3_long':
         unc = 0.0
-        job_dir = 'Job1_unc0.0'
-        parent_job = {'parent_dir' : 'train_d3_czt_auto',
+        job_dir = 'Job2_unc0.0'
+        parent_job = {'parent_dir' : 'train_d3_czt_long',
                       'ext_test' : '--no-ext-test',
                       'ratios' : '--no-ratios',
-                      'train_pkl' : 'd3_czt_spectra_auto_peaks_trainset.pkl',
+                      'train_pkl' : 'd3_czt_spectra_long_peaks_trainset.pkl',
                       'test_pkl' : 'null'
                       }
-    elif sub_type == 'd4_n113':
+    elif sub_type == 'd4_long':
         unc = 0.0
-        job_dir = 'Job1_unc0.0'
-        parent_job = {'parent_dir' : 'train_d4_nai_n113',
+        job_dir = 'Job2_unc0.0'
+        parent_job = {'parent_dir' : 'train_d4_nai_long',
                       'ext_test' : '--no-ext-test',
                       'ratios' : '--no-ratios',
-                      'train_pkl' : 'd4_nai_spectra_113peaks_trainset.pkl',
-                      'test_pkl' : 'null'
-                      }
-    elif sub_type == 'd5_n113':
-        unc = 0.0
-        job_dir = 'Job1_unc0.0'
-        parent_job = {'parent_dir' : 'train_d5_labr3_n113',
-                      'ext_test' : '--no-ext-test',
-                      'ratios' : '--no-ratios',
-                      'train_pkl' : 'd5_labr3_spectra_113peaks_trainset.pkl',
-                      'test_pkl' : 'null'
-                      }
-    elif sub_type == 'd6_n113':
-        unc = 0.0
-        job_dir = 'Job1_unc0.0'
-        parent_job = {'parent_dir' : 'train_d6_sri2_n113',
-                      'ext_test' : '--no-ext-test',
-                      'ratios' : '--no-ratios',
-                      'train_pkl' : 'd6_sri2_spectra_113peaks_trainset.pkl',
+                      'train_pkl' : 'd4_nai_spectra_long_peaks_trainset.pkl',
                       'test_pkl' : 'null'
                       }
     else:
@@ -67,7 +49,7 @@ def get_params_info(sub_type):
     return unc, job_dir, parent_job
 
 def row_calcs():
-    db_rows = 440594
+    db_rows = 450240
     max_jobs = 9750
     n_rows = db_rows // max_jobs
     init_rows = np.arange(0, db_rows, n_rows).tolist()
