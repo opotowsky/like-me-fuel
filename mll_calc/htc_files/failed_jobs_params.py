@@ -43,6 +43,24 @@ def get_params_info(sub_type):
                       'train_pkl' : 'd4_nai_spectra_long_peaks_trainset.pkl',
                       'test_pkl' : 'null'
                       }
+    elif sub_type == 'd5_long':
+        unc = 0.0
+        job_dir = 'Job2_unc0.0'
+        parent_job = {'parent_dir' : 'train_d5_labr3_long',
+                      'ext_test' : '--no-ext-test',
+                      'ratios' : '--no-ratios',
+                      'train_pkl' : 'd5_labr3_spectra_long_peaks_trainset.pkl',
+                      'test_pkl' : 'null'
+                      }
+    elif sub_type == 'd6_long':
+        unc = 0.0
+        job_dir = 'Job2_unc0.0'
+        parent_job = {'parent_dir' : 'train_d6_sri2_long',
+                      'ext_test' : '--no-ext-test',
+                      'ratios' : '--no-ratios',
+                      'train_pkl' : 'd6_sri2_spectra_long_peaks_trainset.pkl',
+                      'test_pkl' : 'null'
+                      }
     else:
         sys.exit()
 
