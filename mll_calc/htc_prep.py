@@ -11,9 +11,8 @@ def row_calcs(ext_test):
     if 'no' in ext_test:
         #db_rows = 450240
         #max_jobs = 9750
-        # rxtr-type study, change based on num entries
-        db_rows = 6720 #120960 #322560
-        max_jobs = 146 #2629 #7012
+        db_rows = 90048 * 4
+        max_jobs = 978 * 4
     else:
         db_rows = 505
         max_jobs = 10

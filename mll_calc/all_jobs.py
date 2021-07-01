@@ -13,14 +13,21 @@
 #job_dirs = ['Job' + str(i) + '_unc' + str(unc) for i, unc in enumerate(uncs)]
 
 # nuc mass rxtr type case
-uncs = [0.01,]
+#uncs = [0.01,]
 #job_dirs = ['pwr',]
 #job_dirs = ['bwr',]
-job_dirs = ['phwr',]
+#job_dirs = ['phwr',]
 
 # sfcompo
 #uncs = [0.01,]
 #job_dirs = ['Job0_unc0.01',]
+
+# learncurve
+uncs = [0.01,]
+#job_dirs = ['20',]
+#job_dirs = ['40',]
+#job_dirs = ['60',]
+job_dirs = ['80',]
 
 
 kid_jobs = {'job_dirs' : job_dirs,
@@ -254,6 +261,34 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
             'test_pkl' : 'sfco_bad.pkl'
             }
 
+nuc29_20 = {'parent_dir' : 'learncurve_nuc29',
+            'ext_test' : '--no-ext-test',
+            'ratios' : '--no-ratios',
+            'train_pkl' : 'sim_grams_nuc29_20.pkl',
+            'test_pkl' : 'null'
+            }
+
+nuc29_40 = {'parent_dir' : 'learncurve_nuc29',
+            'ext_test' : '--no-ext-test',
+            'ratios' : '--no-ratios',
+            'train_pkl' : 'sim_grams_nuc29_40.pkl',
+            'test_pkl' : 'null'
+            }
+
+nuc29_60 = {'parent_dir' : 'learncurve_nuc29',
+            'ext_test' : '--no-ext-test',
+            'ratios' : '--no-ratios',
+            'train_pkl' : 'sim_grams_nuc29_60.pkl',
+            'test_pkl' : 'null'
+            }
+
+nuc29_80 = {'parent_dir' : 'learncurve_nuc29',
+            'ext_test' : '--no-ext-test',
+            'ratios' : '--no-ratios',
+            'train_pkl' : 'sim_grams_nuc29_80.pkl',
+            'test_pkl' : 'null'
+            }
+
 #parent_jobs = [d1_auto, d2_auto, d3_auto, d4_auto, d5_auto, d6_auto,
 #               d1_short, d2_short, d3_short, d4_short, d5_short, d6_short,
 #               d1_long, d2_long, d3_long, d4_long, d5_long, d6_long]
@@ -261,5 +296,9 @@ bad_sfco = {'parent_dir' : 'sfco_bad',
 #parent_jobs = [train_nuc29,]
 #parent_jobs = [nuc29_pwr,]
 #parent_jobs = [nuc29_bwr,]
-parent_jobs = [nuc29_phwr,]
+#parent_jobs = [nuc29_phwr,]
 #parent_jobs = [sfco_nuc29,]
+#parent_jobs = [nuc29_20,] 
+#parent_jobs = [nuc29_40,]
+#parent_jobs = [nuc29_60,] 
+parent_jobs = [nuc29_80,]
